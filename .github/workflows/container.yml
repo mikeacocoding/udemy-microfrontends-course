@@ -28,10 +28,13 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          ## don't forget to specify region
           AWS_DEFAULT_REGION: 'us-east-2'
-      
-      - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} --paths "/container/latest/index.html"
+        
+      - name: Invalidation creation
+        uses: ItsKarma/aws-cli@v1.70.0
+        with: 
+          args: cloudfront create-invalidation --distribution-id ${‌{ secrets.AWS_DISTRIBUTION_ID }} --paths "/container/latest/index.html"
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: 'us-east-2'
+          AWS_ACCESS_KEY_ID: ${‌{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${‌{ secrets.AWS_SECRET_ACCESS_KEY }}
